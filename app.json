@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "Transact",
+    "icon": "./assets/icon.png",
+    "slug": "transact",
+    "privacy": "public",
+    "sdkVersion": "34.0.0",
+    "platforms": ["ios", "android", "web"],
+    "version": "1.2.0",
+    "orientation": "portrait",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.HML.transact"
+    },
+    "android": {
+      "package": "com.HML.transact"
+    },
+    "description": ""
+  }
+}
+
+// "assetBundlePatterns": ["**/*"],
