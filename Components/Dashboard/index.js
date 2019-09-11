@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import {
   Text,
   Image,
@@ -6,8 +6,9 @@ import {
   ScrollView,
   View,
   StyleSheet,
-  StatusBar,
-} from 'react-native';
+  Platform,
+  StatusBar
+} from "react-native";
 import {
   ListItem,
   Container,
@@ -21,14 +22,14 @@ import {
   Icon,
   List,
   Thumbnail,
-  Spinner,
-} from 'native-base';
-import Graph from '../Graph';
-import Boxes from './boxes';
-var {height, width} = Dimensions.get('window');
-import {connect} from 'react-redux';
-import dashActions from '../../redux/Dashboard/actions';
-const {fetchGraphsData} = dashActions;
+  Spinner
+} from "native-base";
+import Graph from "../Graph";
+import Boxes from "./boxes";
+var { height, width } = Dimensions.get("window");
+import { connect } from "react-redux";
+import dashActions from "../../redux/Dashboard/actions";
+const { fetchGraphsData } = dashActions;
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -55,7 +56,7 @@ class Dashboard extends Component {
       productSoldCount: [],
       revenue: [],
       profit: [],
-      loaded: false,
+      loaded: false
     };
     this.props.fetchGraphsData();
   }
@@ -81,7 +82,7 @@ class Dashboard extends Component {
     salesCount,
     productSoldCount,
     revenue,
-    profit,
+    profit
   }) {
     this.setState({
       //
@@ -106,75 +107,73 @@ class Dashboard extends Component {
       productSoldCount,
       revenue,
       profit,
-      loaded: true,
+      loaded: true
     });
   }
 
   static navigationOptions = {
-    drawerLabel: ({fontFamily}) => (
+    drawerLabel: ({ fontFamily }) => (
       <Text
         style={{
           paddingTop: 10,
           paddingBottom: 10,
           fontSize: 20,
-          fontFamily: 'Montserrat',
-        }}>
-        {' '}
-        Dashboard{' '}
+          fontFamily: "Montserrat"
+        }}
+      >
+        {" "}
+        Dashboard{" "}
       </Text>
     ),
-    drawerIcon: ({tintColor}) => (
-      <Image
-        source={require('../../Images/statistics.png')}
-        style={[styles.icon, {fontSize: 20, padding: 2, tintColor: tintColor}]}
-      />
-    ),
+    drawerIcon: ({ tintColor }) => (
+      <Image source={require("../../Images/rates.png")} style={[styles.icon]} />
+    )
   };
   send(array) {
-    console.log('Array in Dashboard ', array);
+    console.log("Array in Dashboard ", array);
     if (array.length >= 1) return array;
     else
       return [
         {
-          name: 'Seoul',
+          name: "Seoul",
           population: 21500000,
-          color: 'rgba(131, 167, 234, 1)',
-          legendFontColor: '#7F7F7F',
-          legendFontSize: 15,
+          color: "rgba(131, 167, 234, 1)",
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 15
         },
         {
-          name: 'Toronto',
+          name: "Toronto",
           population: 2800000,
-          color: '#F00',
-          legendFontColor: '#7F7F7F',
-          legendFontSize: 15,
+          color: "#F00",
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 15
         },
         {
-          name: 'Beijing',
+          name: "Beijing",
           population: 527612,
-          color: 'red',
-          legendFontColor: '#7F7F7F',
-          legendFontSize: 15,
+          color: "red",
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 15
         },
         {
-          name: 'New York',
+          name: "New York",
           population: 8538000,
-          color: '#ffffff',
-          legendFontColor: '#7F7F7F',
-          legendFontSize: 15,
+          color: "#ffffff",
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 15
         },
         {
-          name: 'Moscow',
+          name: "Moscow",
           population: 11920000,
-          color: 'rgb(0, 0, 255)',
-          legendFontColor: '#7F7F7F',
-          legendFontSize: 15,
-        },
+          color: "rgb(0, 0, 255)",
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 15
+        }
       ];
   }
 
   render() {
-    console.log('proppsinDashboard', this.props);
+    console.log("proppsinDashboard", this.props);
     // return <Text>hi</Text>;
     if (!this.state.loaded)
       return (
@@ -195,7 +194,7 @@ class Dashboard extends Component {
                 />
               </Button>
             </Left>
-            <Body style={{paddingLeft: width / 8}}>
+            <Body style={styles.BodyStyle}>
               <Title style={styles.TitleStyle}>Dashboard</Title>
             </Body>
           </Header>
@@ -220,7 +219,7 @@ class Dashboard extends Component {
               />
             </Button>
           </Left>
-          <Body style={{paddingLeft: width / 8}}>
+          <Body style={styles.BodyStyle}>
             <Title style={styles.TitleStyle}>Dashboard</Title>
           </Body>
         </Header>
@@ -266,7 +265,7 @@ class Dashboard extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('mapStateToProps in Dashboard => State ', state);
+  console.log("mapStateToProps in Dashboard => State ", state);
   return {
     //
     inventoryCount: state.Dashboard.inventoryCount,
@@ -291,72 +290,75 @@ function mapStateToProps(state) {
     salesCount: state.Dashboard.salesCount,
     productSoldCount: state.Dashboard.productSoldCount,
     revenue: state.Dashboard.revenue,
-    profit: state.Dashboard.profit,
+    profit: state.Dashboard.profit
   };
 }
 
 export default connect(
   mapStateToProps,
-  {fetchGraphsData},
+  { fetchGraphsData }
 )(Dashboard);
 
 const styles = StyleSheet.create({
+  BodyStyle: {
+    paddingRight: Platform.OS === "ios" ? width / 3 : 0
+  },
   parent: {
     flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
-    backgroundColor: '#f4f5f7',
+    backgroundColor: "#f4f5f7"
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f4f5f7',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f4f5f7"
     // padding: 5,
     // margin: 5,
   },
   row: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center"
     // margin:5
     // backgroundColor:'white'
   },
   rows: {
     marginTop: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center"
   },
   item: {
     width: width / 2 - 10,
     height: height / 9,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    backgroundColor: 'white',
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    backgroundColor: "white",
     margin: 3,
     borderRadius: 5,
     borderWidth: 1.5,
-    borderColor: '#eeeeee',
+    borderColor: "#eeeeee"
     // padding: 5,
   },
   texts: {
-    fontFamily: 'Montserrat',
-    alignSelf: 'center',
+    fontFamily: "Montserrat",
+    alignSelf: "center",
     width: width / 3,
     padding: 2,
     fontSize: 15,
-    color: '#dbdbdb',
+    color: "#dbdbdb"
   },
   pics: {
     width: 35,
-    height: 35,
+    height: 35
   },
   icon: {
-    color: '#5badf3',
-    width: 24,
-    height: 24,
+    color: "#5badf3",
+    width: 30,
+    height: 30
   },
   HeaderStyle: {
     // marginTop: 5,
@@ -364,15 +366,16 @@ const styles = StyleSheet.create({
     // marginRight: 8,
     // borderRadius: 5,
     // borderBottomColor: 'black',
-    fontFamily: 'Montserrat',
-    backgroundColor: 'white',
+    fontFamily: "Montserrat",
+    backgroundColor: "white"
     // color: 'black',
   },
   TitleStyle: {
-    fontFamily: 'Montserrat',
-    color: '#5badf3',
+    fontFamily: "Montserrat",
+    color: "#5badf3"
   },
   button: {
-    paddingLeft: 20,
-  },
+    // paddingLeft: 20
+    // paddingBottom: Platform.OS === "ios" ? 30 : 0
+  }
 });

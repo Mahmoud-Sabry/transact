@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Transact",
-    "icon": "./assets/icon.png",
+    "icon": "./transaction.png",
     "slug": "transact",
     "privacy": "public",
     "sdkVersion": "34.0.0",
@@ -23,8 +23,6 @@
     "android": {
       "package": "com.HML.transact"
     },
-    "description": ""
+    "description": "A cloud-based point-of-sale and retail management platform that lets you effortlessly sell, manage, report, and grow your retail business. It offers a POS and an inventory management system, allowing you to run your business whether online, in-store, or on the go."
   }
 }
-
-// "assetBundlePatterns": ["**/*"],

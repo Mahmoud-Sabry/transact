@@ -25,8 +25,11 @@ const CustomDrawerContentComponent = props => (
     <View>
       <DrawerNavigatorItems {...props} />
     </View>
-    <Button onPress={() => LogOut()} transparent>
-      <Icon style={{ color: "black" }} name="arrow-back" />
+    <Button onPress={() => [LogOut()]} transparent>
+      <Image
+        source={require("../../Images/logout.png")}
+        style={[styles.icon, { marginLeft: 15 }]}
+      />
       <Text
         style={{
           color: "black",
@@ -42,32 +45,6 @@ const CustomDrawerContentComponent = props => (
     </Button>
   </View>
 );
-
-// const CustomDrawerContentComponent = props => (
-//   <View style={{ flex: 1, backgroundColor: "white" }}>
-//     <View style={styles.drawerHeader}>
-//       <Image style={styles.drawerImage} source={logo} />
-//     </View>
-//     <View>
-//       <DrawerItems {...props} />
-//     </View>
-//     <Button onPress={() => LogOut()} transparent>
-//       <Icon style={{ color: "black" }} name="arrow-back" />
-//       <Text
-//         style={{
-//           color: "black",
-//           marginRight: width / 3 + 10,
-//           paddingTop: 10,
-//           paddingBottom: 10,
-//           fontSize: 20,
-//           fontFamily: "Montserrat"
-//         }}
-//       >
-//         Log out
-//       </Text>
-//     </Button>
-//   </View>
-// );
 
 const Apps = createDrawerNavigator(
   {
@@ -93,7 +70,7 @@ const Apps = createDrawerNavigator(
         drawerIcon: ({ tintColor }) => (
           <Image
             source={require("../../Images/basket.png")}
-            style={[styles.icon, { tintColor: tintColor }]}
+            style={[styles.icon]}
           />
         )
       },
@@ -117,7 +94,7 @@ const Apps = createDrawerNavigator(
         drawerIcon: ({ tintColor }) => (
           <Image
             source={require("../../Images/cart.png")}
-            style={[styles.icon, { tintColor: tintColor }]}
+            style={[styles.icon]}
           />
         )
       },
@@ -140,8 +117,8 @@ const Apps = createDrawerNavigator(
         ),
         drawerIcon: ({ tintColor }) => (
           <Image
-            source={require("../../Images/coupon.png")}
-            style={[styles.icon, { tintColor: tintColor }]}
+            source={require("../../Images/invoice.png")}
+            style={[styles.icon]}
           />
         )
       },

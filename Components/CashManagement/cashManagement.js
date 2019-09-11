@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import {
   View,
   Image,
@@ -6,11 +6,14 @@ import {
   ScrollView,
   RefreshControl,
   StatusBar,
-  FlatList,
-} from 'react-native';
-import cashActions from '../../redux/cashManagement/actions';
-const {fetchData, refresh} = cashActions;
-import {formateDate} from '../helper';
+  Platform,
+  Dimensions,
+  FlatList
+} from "react-native";
+var { height, width } = Dimensions.get("window");
+import cashActions from "../../redux/cashManagement/actions";
+const { fetchData, refresh } = cashActions;
+import { formateDate } from "../helper";
 import {
   ListItem,
   Header,
@@ -22,46 +25,46 @@ import {
   Icon,
   Text,
   Spinner,
-  Thumbnail,
-} from 'native-base';
-import red from '../../Images/red.png';
-import green from '../../Images/green.png';
-import {connect} from 'react-redux';
+  Thumbnail
+} from "native-base";
+import red from "../../Images/red.png";
+import green from "../../Images/green.png";
+import { connect } from "react-redux";
 class CashManagement extends Component {
   static navigationOptions = {
-    drawerLabel: ({fontFamily}) => (
-      <Text style={{fontFamily: fontFamily}}> Cash Management </Text>
+    drawerLabel: ({ fontFamily }) => (
+      <Text style={{ fontFamily: fontFamily }}> Cash Management </Text>
     ),
-    drawerIcon: ({tintColor}) => (
+    drawerIcon: ({ tintColor }) => (
       <Image
-        source={require('../../Images/note.png')}
-        style={[styles.icon, {tintColor: tintColor}]}
+        source={require("../../Images/note.png")}
+        style={[styles.icon, { tintColor: tintColor }]}
       />
-    ),
+    )
   };
 
   constructor(props) {
     super(props);
     this.viewabilityConfig = {
       waitForInteraction: true,
-      viewAreaCoveragePercentThreshold: 95,
+      viewAreaCoveragePercentThreshold: 95
     };
     this.state = {
       data: [],
       isModalVisible: false,
       refreshing: false,
-      comment: '',
-      loaded: false,
+      comment: "",
+      loaded: false
     };
     this.props.fetchData();
   }
-  componentWillReceiveProps({data, isModalVisible, refreshing, comment}) {
+  componentWillReceiveProps({ data, isModalVisible, refreshing, comment }) {
     this.setState({
       data,
       isModalVisible,
       refreshing,
       comment,
-      loaded: true,
+      loaded: true
     });
   }
   _onRefresh = () => {
@@ -71,7 +74,7 @@ class CashManagement extends Component {
     });
   };
 
-  renderCashManagementData = ({item}) => {
+  renderCashManagementData = ({ item }) => {
     // console.log('renderCashManagementData => ', this.state.data);
     // const {data} = this.state;
 
@@ -83,28 +86,29 @@ class CashManagement extends Component {
     return (
       <ListItem
         onPress={_ => [
-          this.props.navigation.navigate('Comment', {
+          this.props.navigation.navigate("Comment", {
             cash: cash_amount,
-            cashType: item.cashIn == undefined ? 'CashOut' : 'CashIn',
+            cashType: item.cashIn == undefined ? "CashOut" : "CashIn",
             created: formateDate(item.createdAt),
             name: item.cashier.name,
-            comment: item.comment,
-          }),
+            comment: item.comment
+          })
         ]}
         key={item._id}
-        avatar>
+        avatar
+      >
         <Left>
           <Thumbnail style={styles.pics} source={cash} />
         </Left>
         <Body>
-          <Text style={{fontFamily: 'Montserrat'}}>{cash_amount} EGP</Text>
-          <Text style={{fontFamily: 'Montserrat'}} note>
+          <Text style={{ fontFamily: "Montserrat" }}>{cash_amount} EGP</Text>
+          <Text style={{ fontFamily: "Montserrat" }} note>
             {formateDate(item.createdAt)}
           </Text>
         </Body>
         <Right>
-          <Text style={{fontFamily: 'Montserrat'}} note>
-            {item.cashier.name}{' '}
+          <Text style={{ fontFamily: "Montserrat" }} note>
+            {item.cashier.name}{" "}
           </Text>
         </Right>
       </ListItem>
@@ -114,10 +118,10 @@ class CashManagement extends Component {
   keyExtractor = (item, index) => item.id;
 
   render() {
-    console.log('props1', this.props);
+    console.log("props1", this.props);
     if (!this.state.loaded)
       return (
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <Header style={styles.HeaderStyle}>
             <StatusBar
               barStyle="dark-content"
@@ -134,7 +138,7 @@ class CashManagement extends Component {
                 />
               </Button>
             </Left>
-            <Body>
+            <Body style={styles.BodyStyle}>
               <Title style={styles.TitleStyle}>Cash Management</Title>
             </Body>
           </Header>
@@ -143,7 +147,7 @@ class CashManagement extends Component {
         </View>
       );
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <Header style={styles.HeaderStyle}>
           <StatusBar
             barStyle="dark-content"
@@ -160,9 +164,10 @@ class CashManagement extends Component {
               />
             </Button>
           </Left>
-          <Body>
+          <Body style={styles.BodyStyle}>
             <Title style={styles.TitleStyle}>Cash Management</Title>
           </Body>
+          {/* {Platform.OS === "ios" ? <Right></Right> : []} */}
         </Header>
         <ScrollView
           refreshControl={
@@ -170,7 +175,8 @@ class CashManagement extends Component {
               refreshing={this.state.refreshing}
               onRefresh={this._onRefresh.bind(this)}
             />
-          }>
+          }
+        >
           <FlatList
             keyExtractor={this.keyExtractor}
             data={this.props.data}
@@ -184,29 +190,29 @@ class CashManagement extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('mapStateToProps => State ', state);
+  console.log("mapStateToProps => State ", state);
   return {
     data: state.CashManagement.data,
     isModalVisible: state.CashManagement.isModalVisible,
     refreshing: state.CashManagement.refreshing,
-    comment: state.CashManagement.comment,
+    comment: state.CashManagement.comment
   };
 }
 
 export default connect(
   mapStateToProps,
-  {fetchData, refresh},
+  { fetchData, refresh }
 )(CashManagement);
 
 const styles = StyleSheet.create({
   icon: {
-    color: '#5badf3',
-    width: 24,
-    height: 24,
+    color: "#5badf3",
+    width: 30,
+    height: 30
   },
   pics: {
     width: 30,
-    height: 30,
+    height: 30
   },
   HeaderStyle: {
     // marginTop: 5,
@@ -214,12 +220,16 @@ const styles = StyleSheet.create({
     // marginRight: 8,
     // borderRadius: 5,
     // borderBottomColor: 'black',
-    fontFamily: 'Montserrat',
-    backgroundColor: 'white',
+    fontFamily: "Montserrat",
+    backgroundColor: "white"
     // color: 'black',
   },
   TitleStyle: {
-    color: '#5badf3',
-    fontFamily: 'Montserrat',
+    color: "#5badf3",
+    fontFamily: "Montserrat",
+    width: width / 2
   },
+  BodyStyle: {
+    paddingRight: Platform.OS === "ios" ? width / 3 : 0
+  }
 });

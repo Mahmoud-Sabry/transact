@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import {
   View,
   Image,
@@ -8,14 +8,15 @@ import {
   StatusBar,
   Dimensions,
   Text,
+  Platform,
   FlatList,
-  TouchableOpacity,
-} from 'react-native';
-import ReceiptsItem from './ReceiptsItem';
-import ReceiptsActions from '../../redux/Receipts/actions';
-const {fetchReceiptsData, refresh} = ReceiptsActions;
-var {height, width} = Dimensions.get('window');
-import {formateDate, CustomNums} from '../helper';
+  TouchableOpacity
+} from "react-native";
+import ReceiptsItem from "./ReceiptsItem";
+import ReceiptsActions from "../../redux/Receipts/actions";
+const { fetchReceiptsData, refresh } = ReceiptsActions;
+var { height, width } = Dimensions.get("window");
+import { formateDate, CustomNums } from "../helper";
 import {
   ListItem,
   Header,
@@ -25,15 +26,15 @@ import {
   Body,
   Icon,
   Button,
-  Spinner,
-} from 'native-base';
-import {connect} from 'react-redux';
+  Spinner
+} from "native-base";
+import { connect } from "react-redux";
 class Receipts extends Component {
   constructor(props) {
     super(props);
     this.viewabilityConfig = {
       waitForInteraction: true,
-      viewAreaCoveragePercentThreshold: 95,
+      viewAreaCoveragePercentThreshold: 95
     };
     this.state = {
       data: [],
@@ -41,17 +42,17 @@ class Receipts extends Component {
       Receipt: {},
       decoded: {},
       loaded: false,
-      tempData: [],
+      tempData: []
     };
     this.props.fetchReceiptsData();
   }
-  componentWillReceiveProps({data, decoded, Receipt, refreshing}) {
+  componentWillReceiveProps({ data, decoded, Receipt, refreshing }) {
     this.setState({
       data,
       Receipt,
       refreshing,
       decoded,
-      loaded: true,
+      loaded: true
     });
   }
   _onRefresh = () => {
@@ -61,18 +62,18 @@ class Receipts extends Component {
     });
   };
 
-  renderReceiptsData = ({item}) => {
-    console.log('renderReceiptsData => ', this.state.data);
+  renderReceiptsData = ({ item }) => {
+    // console.log("renderReceiptsData => ", this.state.data);
     return <ReceiptsItem navigation={this.props.navigation} item={item} />;
   };
 
   keyExtractor = (item, index) => item.id;
 
   render() {
-    console.log('Receipts Props', this.props);
+    console.log("Receipts Props", this.props);
     if (this.props.data.length <= 0)
       return (
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <Header style={styles.HeaderStyle}>
             <StatusBar
               barStyle="dark-content"
@@ -92,6 +93,7 @@ class Receipts extends Component {
             <Body>
               <Title style={styles.TitleStyle}>Receipts</Title>
             </Body>
+            {Platform.OS === "ios" ? <Right></Right> : []}
           </Header>
 
           <Spinner color="blue" />
@@ -99,7 +101,7 @@ class Receipts extends Component {
       );
     return (
       // <Root>
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <Header style={styles.HeaderStyle}>
           <StatusBar
             barStyle="dark-content"
@@ -119,8 +121,16 @@ class Receipts extends Component {
           <Body>
             <Title style={styles.TitleStyle}>Receipts</Title>
           </Body>
+          {Platform.OS === "ios" ? <Right></Right> : []}
         </Header>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+            />
+          }
+        >
           <FlatList
             keyExtractor={this.keyExtractor}
             data={this.props.data}
@@ -135,67 +145,67 @@ class Receipts extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('mapStateToProps Receipts => State ', state);
+  console.log("mapStateToProps Receipts => State ", state);
   return {
     data: state.Receipts.data,
     refreshing: state.Receipts.refreshing,
     Receipt: state.Receipts.Receipt,
-    decoded: state.Receipts.decoded,
+    decoded: state.Receipts.decoded
   };
 }
 
 export default connect(
   mapStateToProps,
-  {fetchReceiptsData, refresh},
+  { fetchReceiptsData, refresh }
 )(Receipts);
 
 const styles = StyleSheet.create({
   row_Right: {
-    flex: 1,
+    flex: 1
   },
   row_Left: {
-    flex: 1,
+    flex: 1
   },
   row_Body: {
     flex: 1,
-    paddingTop: 4,
+    paddingTop: 4
     // alignItems: 'center',
     // justifyContent: 'center',
   },
   touchableOpacity: {
     padding: 5,
-    flexDirection: 'row',
+    flexDirection: "row"
   },
   icon: {
-    color: '#5badf3',
-    width: 24,
-    height: 24,
+    color: "#5badf3",
+    width: 30,
+    height: 30
   },
   pics: {
     width: 30,
-    height: 30,
+    height: 30
   },
   HeaderStyle: {
-    fontFamily: 'Montserrat',
-    backgroundColor: 'white',
+    fontFamily: "Montserrat",
+    backgroundColor: "white"
   },
   TitleStyle: {
-    color: '#5badf3',
-    fontFamily: 'Montserrat',
+    color: "#5badf3",
+    fontFamily: "Montserrat"
   },
   status_button: {
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
     width: width / 4,
     fontSize: 10,
     height: 50,
     borderRadius: 10,
-    fontFamily: 'Montserrat',
-    backgroundColor: 'gray',
+    fontFamily: "Montserrat",
+    backgroundColor: "gray"
   },
   status_text: {
     fontSize: 10,
-    fontFamily: 'Montserrat',
-  },
+    fontFamily: "Montserrat"
+  }
 });

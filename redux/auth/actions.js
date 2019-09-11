@@ -1,42 +1,42 @@
-import deviceStorage from '../../Components/helper/deviceStorage';
-import axios from 'axios';
+import deviceStorage from "../../Components/helper/deviceStorage";
+import axios from "axios";
 const actions = {
-  LOGIN_SUCCESS: 'LOGIN_SUCCESS',
-  LOGIN_ERROR: 'LOGIN_ERROR',
-  LOGOUT: 'LOGOUT',
-  USER: 'USER',
-  PASSWORD: 'PASSWORD',
+  LOGIN_SUCCESS: "LOGIN_SUCCESS",
+  LOGIN_ERROR: "LOGIN_ERROR",
+  LOGOUT: "LOGOUT",
+  USER: "USER",
+  PASSWORD: "PASSWORD",
 
   user: username => dispatch => {
     dispatch({
       type: actions.USER,
-      username: username,
+      username: username
     });
-    console.log('username ', username);
+    console.log("username ", username);
   },
   pass: password => dispatch => {
     dispatch({
       type: actions.PASSWORD,
-      password: password,
+      password: password
     });
-    console.log('password ', password);
+    console.log("password ", password);
   },
   login: (username, password, navigation) => dispatch => {
-    if (username != '' && password != '') {
+    if (username != "" && password != "") {
       axios
-        .post('https://stagingbe.transacthq.com/api/clientadmin/login', {
+        .post("https://stagingbe.transacthq.com/api/clientadmin/login", {
           username,
-          password,
+          password
         })
         .then(responseJson => {
           dispatch({
             type: actions.LOGIN_SUCCESS,
-            token: responseJson.data.token,
+            token: responseJson.data.token
           });
-          console.log('response ', responseJson);
-          console.log('token ', responseJson.data.token);
+          console.log("response ", responseJson);
+          console.log("token ", responseJson.data.token);
           deviceStorage(responseJson.data.token);
-          navigation.navigate('Dr_Nav');
+          navigation.navigate("Dr_Nav");
         })
         .catch(err => {
           if (err.response.data.errors.username == undefined)
@@ -44,18 +44,18 @@ const actions = {
           else alert(err.response.data.errors.username);
         });
     } else {
-      alert('No UserName OR Password !!');
+      alert("No UserName OR Password !!");
     }
   },
   setAuthTokenInHeader: token => {
     if (token) {
       //apply to every request
-      axios.defaults.headers.common['Authorization'] = token;
+      axios.defaults.headers.common["Authorization"] = token;
     } else {
       //Delete Auth header
-      delete axios.defaults.headers.common['Authorization'];
+      delete axios.defaults.headers.common["Authorization"];
     }
-  },
+  }
 };
 
 export default actions;

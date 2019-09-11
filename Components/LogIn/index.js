@@ -23,6 +23,7 @@ class LogIn extends Component {
       console.log("Token ", result);
       if (result != undefined) {
         if (isAuthenticated) this.props.navigation.navigate("Dr_Nav");
+        else this.props.navigation.navigate("LogIn");
       }
     });
   }
@@ -33,39 +34,43 @@ class LogIn extends Component {
   render() {
     return (
       <View style={styles.parent}>
-        <Image source={logo} style={styles.Logo} />
-        <TextInput
-          style={styles.input}
-          placeholder="User Name"
-          onChangeText={text => this.props.user(text)}
-        />
+        <View style={styles.parent2}>
+          <Image source={logo} style={styles.Logo} />
+          <View style={styles.cont}>
+            <TextInput
+              style={styles.input}
+              placeholder="User Name"
+              onChangeText={text => this.props.user(text)}
+            />
 
-        <TextInput
-          style={styles.input}
-          secureTextEntry={true}
-          placeholder="Password"
-          onChangeText={text => this.props.pass(text)}
-        />
+            <TextInput
+              style={styles.input}
+              secureTextEntry={true}
+              placeholder="Password"
+              onChangeText={text => this.props.pass(text)}
+            />
 
-        <TouchableOpacity
-          style={styles.buttonn}
-          onPress={_ =>
-            this.props.login(
-              this.props.username,
-              this.props.password,
-              this.props.navigation
-            )
-          }
-        >
-          <Text
-            style={{
-              color: "rgba(31, 29, 68,1)"
-              // fontFamily: "Lobster-Regular"
-            }}
-          >
-            Sign In
-          </Text>
-        </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonn}
+              onPress={_ =>
+                this.props.login(
+                  this.props.username,
+                  this.props.password,
+                  this.props.navigation
+                )
+              }
+            >
+              <Text
+                style={{
+                  color: "white",
+                  fontFamily: "Montserrat"
+                }}
+              >
+                Sign In
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     );
   }
@@ -86,6 +91,11 @@ export default connect(
 )(LogIn);
 
 const styles = StyleSheet.create({
+  cont: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 50
+  },
   Logo: {
     margin: 10,
     width: 260,
@@ -103,23 +113,28 @@ const styles = StyleSheet.create({
   },
   input: {
     margin: 5,
-    borderRadius: 20,
+    paddingLeft: 20,
+    borderRadius: 5,
     width: width - 40,
-    backgroundColor: "#e8f0fe" //'rgba(123, 124, 134,1)',
+    height: 50,
+    backgroundColor: "#e8f0fe", //'rgba(123, 124, 134,1)',
+    fontFamily: "Montserrat"
     // fontFamily: "SourceSansPro-Light"
     // color:"lightgreen",
     // marginTop:height/2
   },
   parent2: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    // alignContent: "center",
+    // justifyContent: "center",
+    paddingTop: height / 5
+    // flex: 1,
+    // justifyContent: "center",
+    // alignItems: "center"
     // backgroundColor:'rgb(32, 53, 70)'
     // marginTop:height/2
   },
   parent: {
-    alignItems: "center",
-    justifyContent: "center",
     flex: 1,
     backgroundColor: "#ffffff"
     // marginTop:height/2
@@ -131,8 +146,9 @@ const styles = StyleSheet.create({
     marginRight: width / 4,
     width: width / 2,
     height: 50,
-    borderRadius: 30,
+    borderRadius: 5,
     margin: 5,
+
     fontSize: 20,
     backgroundColor: "#1890ff" //'rgba(123, 124, 134,1)',
     // fontFamily: "SourceSansPro-BoldItalic"
